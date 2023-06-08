@@ -6,6 +6,7 @@
 		"alwaysStrict": true,
 		"allowJs": true,
 		"esModuleInterop": true,
+		"moduleResolution": "node",
 		"module": "ESNext",
 		"lib": [
 			"DOM",

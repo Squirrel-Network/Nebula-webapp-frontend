@@ -31,6 +31,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@squirrelnetwork/esbuild-sass-modules-plugin", "virtual:9298dfaa646c81abaebc60ddebe90c2cc7f2a010d95b69e2fca515fed65af5d780d337f0e513e5251a79a01c787200630f1446ed4d65c0ce8361465c0016832e#npm:1.0.8"],\
             ["@types/react", "npm:18.2.9"],\
             ["@types/react-dom", "npm:18.2.4"],\
+            ["@types/react-router-dom", "npm:5.3.3"],\
             ["axios", "npm:1.4.0"],\
             ["axios-observable", "virtual:9298dfaa646c81abaebc60ddebe90c2cc7f2a010d95b69e2fca515fed65af5d780d337f0e513e5251a79a01c787200630f1446ed4d65c0ce8361465c0016832e#npm:2.0.0"],\
             ["bootstrap", "virtual:9298dfaa646c81abaebc60ddebe90c2cc7f2a010d95b69e2fca515fed65af5d780d337f0e513e5251a79a01c787200630f1446ed4d65c0ce8361465c0016832e#npm:5.3.0"],\
@@ -41,6 +42,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:9298dfaa646c81abaebc60ddebe90c2cc7f2a010d95b69e2fca515fed65af5d780d337f0e513e5251a79a01c787200630f1446ed4d65c0ce8361465c0016832e#npm:18.2.0"],\
             ["sass", "npm:1.62.1"],\
+            ["typescript", "patch:typescript@npm%3A5.1.3#~builtin<compat/typescript>::version=5.1.3&hash=5da071"],\
             ["xstream", "npm:11.14.0"]\
           ],\
           "linkType": "SOFT"\
@@ -311,6 +313,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@types/history", [\
+        ["npm:4.7.11", {\
+          "packageLocation": "./.yarn/cache/@types-history-npm-4.7.11-fe05d7b2e1-c92e2ba407.zip/node_modules/@types/history/",\
+          "packageDependencies": [\
+            ["@types/history", "npm:4.7.11"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@types/prop-types", [\
         ["npm:15.7.5", {\
           "packageLocation": "./.yarn/cache/@types-prop-types-npm-15.7.5-2aa48aa177-5b43b8b154.zip/node_modules/@types/prop-types/",\
@@ -338,6 +349,29 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@types/react-dom", "npm:18.2.4"],\
             ["@types/react", "npm:18.2.9"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/react-router", [\
+        ["npm:5.1.20", {\
+          "packageLocation": "./.yarn/cache/@types-react-router-npm-5.1.20-620ccce99a-1287641434.zip/node_modules/@types/react-router/",\
+          "packageDependencies": [\
+            ["@types/react-router", "npm:5.1.20"],\
+            ["@types/history", "npm:4.7.11"],\
+            ["@types/react", "npm:18.2.9"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/react-router-dom", [\
+        ["npm:5.3.3", {\
+          "packageLocation": "./.yarn/cache/@types-react-router-dom-npm-5.3.3-9f687b5b3a-28c4ea4890.zip/node_modules/@types/react-router-dom/",\
+          "packageDependencies": [\
+            ["@types/react-router-dom", "npm:5.3.3"],\
+            ["@types/history", "npm:4.7.11"],\
+            ["@types/react", "npm:18.2.9"],\
+            ["@types/react-router", "npm:5.1.20"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -3119,6 +3153,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@squirrelnetwork/esbuild-sass-modules-plugin", "virtual:9298dfaa646c81abaebc60ddebe90c2cc7f2a010d95b69e2fca515fed65af5d780d337f0e513e5251a79a01c787200630f1446ed4d65c0ce8361465c0016832e#npm:1.0.8"],\
             ["@types/react", "npm:18.2.9"],\
             ["@types/react-dom", "npm:18.2.4"],\
+            ["@types/react-router-dom", "npm:5.3.3"],\
             ["axios", "npm:1.4.0"],\
             ["axios-observable", "virtual:9298dfaa646c81abaebc60ddebe90c2cc7f2a010d95b69e2fca515fed65af5d780d337f0e513e5251a79a01c787200630f1446ed4d65c0ce8361465c0016832e#npm:2.0.0"],\
             ["bootstrap", "virtual:9298dfaa646c81abaebc60ddebe90c2cc7f2a010d95b69e2fca515fed65af5d780d337f0e513e5251a79a01c787200630f1446ed4d65c0ce8361465c0016832e#npm:5.3.0"],\
@@ -3129,6 +3164,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:9298dfaa646c81abaebc60ddebe90c2cc7f2a010d95b69e2fca515fed65af5d780d337f0e513e5251a79a01c787200630f1446ed4d65c0ce8361465c0016832e#npm:18.2.0"],\
             ["sass", "npm:1.62.1"],\
+            ["typescript", "patch:typescript@npm%3A5.1.3#~builtin<compat/typescript>::version=5.1.3&hash=5da071"],\
             ["xstream", "npm:11.14.0"]\
           ],\
           "linkType": "SOFT"\
@@ -4483,6 +4519,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/typedarray-npm-0.0.6-37638b2241-33b39f3d0e.zip/node_modules/typedarray/",\
           "packageDependencies": [\
             ["typedarray", "npm:0.0.6"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["typescript", [\
+        ["patch:typescript@npm%3A5.1.3#~builtin<compat/typescript>::version=5.1.3&hash=5da071", {\
+          "packageLocation": "./.yarn/cache/typescript-patch-8d03db133e-6f0a9dca6b.zip/node_modules/typescript/",\
+          "packageDependencies": [\
+            ["typescript", "patch:typescript@npm%3A5.1.3#~builtin<compat/typescript>::version=5.1.3&hash=5da071"]\
           ],\
           "linkType": "HARD"\
         }]\

@@ -21,10 +21,12 @@
     "@squirrelnetwork/esbuild-sass-modules-plugin": "^1.0.8",
     "@types/react": "^18.2.9",
     "@types/react-dom": "^18.2.4",
+    "@types/react-router-dom": "^5.3.3",
     "dotenv-safe": "^8.2.0",
     "esbuild": "^0.17.19",
     "gulp": "^4.0.2",
     "postcss": "^8.4.24",
-    "sass": "1.62.1"
+    "sass": "1.62.1",
+    "typescript": "^5.1.3"
   }
 }
