@@ -1,0 +1,16 @@
+{
+	"buildOptions": {
+		"verbose": true
+	},
+	"compilerOptions": {
+		"alwaysStrict": true,
+		"allowJs": true,
+		"esModuleInterop": true,
+		"module": "ESNext",
+		"lib": [
+			"DOM",
+			"ES6"
+		],
+		"jsx": "react"
+	}
+}

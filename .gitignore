@@ -1,1 +1,5 @@
 /.idea
+/.yarn
+
+dist
+.env
