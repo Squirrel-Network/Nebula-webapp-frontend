@@ -41,9 +41,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:9298dfaa646c81abaebc60ddebe90c2cc7f2a010d95b69e2fca515fed65af5d780d337f0e513e5251a79a01c787200630f1446ed4d65c0ce8361465c0016832e#npm:18.2.0"],\
             ["react-router-dom", "virtual:9298dfaa646c81abaebc60ddebe90c2cc7f2a010d95b69e2fca515fed65af5d780d337f0e513e5251a79a01c787200630f1446ed4d65c0ce8361465c0016832e#npm:6.12.1"],\
+            ["rxjs", "npm:7.8.1"],\
             ["sass", "npm:1.62.1"],\
-            ["typescript", "patch:typescript@npm%3A5.1.3#~builtin<compat/typescript>::version=5.1.3&hash=5da071"],\
-            ["xstream", "npm:11.14.0"]\
+            ["typescript", "patch:typescript@npm%3A5.1.3#~builtin<compat/typescript>::version=5.1.3&hash=5da071"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -701,7 +701,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/axios", null],\
             ["@types/rxjs", null],\
             ["axios", "npm:1.4.0"],\
-            ["rxjs", null]\
+            ["rxjs", "npm:7.8.1"]\
           ],\
           "packagePeers": [\
             "@types/axios",\
@@ -2011,16 +2011,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["globalthis", [\
-        ["npm:1.0.3", {\
-          "packageLocation": "./.yarn/cache/globalthis-npm-1.0.3-96cd56020d-fbd7d760dc.zip/node_modules/globalthis/",\
-          "packageDependencies": [\
-            ["globalthis", "npm:1.0.3"],\
-            ["define-properties", "npm:1.2.0"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["glogg", [\
         ["npm:1.0.2", {\
           "packageLocation": "./.yarn/cache/glogg-npm-1.0.2-03050846f9-6defe24bbe.zip/node_modules/glogg/",\
@@ -3140,9 +3130,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:9298dfaa646c81abaebc60ddebe90c2cc7f2a010d95b69e2fca515fed65af5d780d337f0e513e5251a79a01c787200630f1446ed4d65c0ce8361465c0016832e#npm:18.2.0"],\
             ["react-router-dom", "virtual:9298dfaa646c81abaebc60ddebe90c2cc7f2a010d95b69e2fca515fed65af5d780d337f0e513e5251a79a01c787200630f1446ed4d65c0ce8361465c0016832e#npm:6.12.1"],\
+            ["rxjs", "npm:7.8.1"],\
             ["sass", "npm:1.62.1"],\
-            ["typescript", "patch:typescript@npm%3A5.1.3#~builtin<compat/typescript>::version=5.1.3&hash=5da071"],\
-            ["xstream", "npm:11.14.0"]\
+            ["typescript", "patch:typescript@npm%3A5.1.3#~builtin<compat/typescript>::version=5.1.3&hash=5da071"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -3986,6 +3976,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["rxjs", [\
+        ["npm:7.8.1", {\
+          "packageLocation": "./.yarn/cache/rxjs-npm-7.8.1-41c443a75b-de4b53db10.zip/node_modules/rxjs/",\
+          "packageDependencies": [\
+            ["rxjs", "npm:7.8.1"],\
+            ["tslib", "npm:2.5.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["safe-buffer", [\
         ["npm:5.1.2", {\
           "packageLocation": "./.yarn/cache/safe-buffer-npm-5.1.2-c27fedf6c4-f2f1f7943c.zip/node_modules/safe-buffer/",\
@@ -4408,15 +4408,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["symbol-observable", [\
-        ["npm:2.0.3", {\
-          "packageLocation": "./.yarn/cache/symbol-observable-npm-2.0.3-d54dcee558-533dcf7a79.zip/node_modules/symbol-observable/",\
-          "packageDependencies": [\
-            ["symbol-observable", "npm:2.0.3"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
       ["tar", [\
         ["npm:6.1.15", {\
           "packageLocation": "./.yarn/cache/tar-npm-6.1.15-44c3e71720-f23832fcee.zip/node_modules/tar/",\
@@ -4522,6 +4513,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["to-through", "npm:2.0.0"],\
             ["through2", "npm:2.0.5"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["tslib", [\
+        ["npm:2.5.3", {\
+          "packageLocation": "./.yarn/cache/tslib-npm-2.5.3-7756051e02-88902b309a.zip/node_modules/tslib/",\
+          "packageDependencies": [\
+            ["tslib", "npm:2.5.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -4828,17 +4828,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/wrappy-npm-1.0.2-916de4d4b3-159da4805f.zip/node_modules/wrappy/",\
           "packageDependencies": [\
             ["wrappy", "npm:1.0.2"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["xstream", [\
-        ["npm:11.14.0", {\
-          "packageLocation": "./.yarn/cache/xstream-npm-11.14.0-cb67d59ee0-eb96b5f9cd.zip/node_modules/xstream/",\
-          "packageDependencies": [\
-            ["xstream", "npm:11.14.0"],\
-            ["globalthis", "npm:1.0.3"],\
-            ["symbol-observable", "npm:2.0.3"]\
           ],\
           "linkType": "HARD"\
         }]\
