@@ -1,15 +1,16 @@
 import process from 'node:process';
+import fs from 'fs';
 
 import dotenv from 'dotenv-safe';
 
-dotenv.config();
+const env = dotenv.parse(fs.readFileSync('.env', { encoding: 'utf8' }));
 
 import ESB from 'esbuild';
 import sassModules from '@squirrelnetwork/esbuild-sass-modules-plugin';
 
-const buildType = process.env['NODE_ENV'];
+const buildType = env['NODE_ENV'];
 const isDev = buildType === 'development';
-const port = parseInt(process.env['SERVE_PORT']);
+const port = parseInt(env['SERVE_PORT']);
 
 const buildOptions =
 	{ outfile: 'dist/nebula.js'
@@ -24,7 +25,14 @@ const buildOptions =
 	, platform: 'browser'
 	, target: 'ES6'
 	, tsconfig: 'tsconfig.json'
-	, define: { 'process.env.NODE_ENV': '"' + buildType + '"' }
+	, define: Object.keys(env)
+		.reduce((acc, next) => (
+			{ ...acc
+			, [`process.env.${next}`]: `"${env[next]}"`
+			}
+			),
+			{}
+		)
 	, plugins:
 		[ sassModules(
 			{ postcss:
