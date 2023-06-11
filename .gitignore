@@ -1,5 +1,7 @@
 /.idea
-/.yarn
+/.yarn/cache
+/.yarn/unplugged
+/.yarn/install-state.gz
 
-dist
+dist/nebula.js
 .env
