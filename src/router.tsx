@@ -9,7 +9,7 @@ export default createBrowserRouter(
 	[ { path: '/'
 	, element: <RouteHome />
 	}
-	, { path: '/filter'
+	, { path: '/filters'
 	, element: <RouteFilter />
 	}
 	, { path: '/error'
