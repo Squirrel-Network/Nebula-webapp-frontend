@@ -19,7 +19,7 @@ const buildOptions =
 	, format: 'esm'
 	, color: true
 	, bundle: true
-	, logLevel: 'verbose'
+	, logLevel: isDev ? 'verbose' : 'info'
 	, entryPoints: [ 'src/index.tsx' ]
 	, charset: 'utf8'
 	, platform: 'browser'
@@ -43,7 +43,7 @@ const buildOptions =
 				, sourceMap: isDev
 				, sourceMapEmbed: isDev
 				, sourceMapContents: isDev
-				, verbose: isDev
+				, verbose: isDev ? 'verbose' : 'info'
 				, outFile: 'dist/nebula.css'
 				}
 			}
