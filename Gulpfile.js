@@ -1,9 +1,6 @@
-import process from 'node:process';
-import fs from 'fs';
-
 import dotenv from 'dotenv-safe';
 
-const env = dotenv.parse(fs.readFileSync('.env', { encoding: 'utf8' }));
+const { required: env } = dotenv.config();
 
 import ESB from 'esbuild';
 import sassModules from '@squirrelnetwork/esbuild-sass-modules-plugin';
@@ -11,9 +8,10 @@ import sassModules from '@squirrelnetwork/esbuild-sass-modules-plugin';
 const buildType = env['NODE_ENV'];
 const isDev = buildType === 'development';
 const port = parseInt(env['SERVE_PORT']);
+const bundleName = env['BUNDLE_NAME'];
 
 const buildOptions =
-	{ outfile: 'dist/nebula.js'
+	{ outfile: `dist/${bundleName}.js`
 	, sourcemap: isDev ? 'inline' : false
 	, minify: !isDev
 	, format: 'esm'
@@ -44,7 +42,7 @@ const buildOptions =
 				, sourceMapEmbed: isDev
 				, sourceMapContents: isDev
 				, verbose: isDev ? 'verbose' : 'info'
-				, outFile: 'dist/nebula.css'
+				, outFile: `dist/${bundleName}.css`
 				}
 			}
 		)
