@@ -9,6 +9,7 @@ const buildType = env['NODE_ENV'];
 const isDev = buildType === 'development';
 const port = parseInt(env['SERVE_PORT']);
 const bundleName = env['BUNDLE_NAME'];
+const logLevel = env['LOG_LEVEL'];
 
 const buildOptions =
 	{ outfile: `dist/${bundleName}.js`
@@ -17,7 +18,7 @@ const buildOptions =
 	, format: 'esm'
 	, color: true
 	, bundle: true
-	, logLevel: isDev ? 'verbose' : 'info'
+	, logLevel: logLevel
 	, entryPoints: [ 'src/index.tsx' ]
 	, charset: 'utf8'
 	, platform: 'browser'
@@ -41,7 +42,7 @@ const buildOptions =
 				, sourceMap: isDev
 				, sourceMapEmbed: isDev
 				, sourceMapContents: isDev
-				, verbose: isDev ? 'verbose' : 'info'
+				, verbose: logLevel
 				, outFile: `dist/${bundleName}.css`
 				}
 			}
