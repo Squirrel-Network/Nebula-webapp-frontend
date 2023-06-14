@@ -1,9 +1,15 @@
-declare var process;
+declare var process: { env: { [index: string]: any } };
 
 const API =
-	{ SERVER_BASE: new URL(process.env.SERVER_BASE as string)
-	, get LOGIN() {
-		return new URL('/login', this.SERVER_BASE)
+	{ API_SERVER: new URL(process.env.API_SERVER as string)
+	, get V1() {
+		return new URL('/v1/', this.API_SERVER);
+	}
+	, GROUP(groupId: string) {
+		return new URL(`group/${groupId}/`, this.V1);
+	}
+	, FILTERS(groupId: string) {
+		return new URL('filters', this.GROUP(groupId));
 	}
 	};
 

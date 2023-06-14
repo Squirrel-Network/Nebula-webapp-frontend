@@ -1,8 +1,8 @@
 import React from 'react';
-import useLogin from '../hooks/use.login';
+import useFilters from '../hooks/use.filters';
 
 export default function RouteFilter() {
-	const isLogged = useLogin();
+	const filters = useFilters();
 
-	return <>Filter</>;
+	return <>{JSON.stringify(filters)}</>;
 }
