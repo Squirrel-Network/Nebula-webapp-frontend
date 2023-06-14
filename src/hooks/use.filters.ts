@@ -1,21 +1,20 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { map, tap } from 'rxjs';
 import FiltersResponse from '../model/filters.response';
 import filtersService$ from '../services/filters.service';
 
-export default function useFilters() {
+export default function useFilters(deps: React.DependencyList) {
 	const [filters, setFilters] = useState({} as FiltersResponse);
 
 	const filters$ = filtersService$
-		.pipe(map(r => r.data));
+		.pipe(map(r => r.data))
+		.pipe(tap(f => setFilters(f)));
 
 	useEffect(() => {
-		const $ = filters$
-			.pipe(tap(f => setFilters(f)))
-			.subscribe();
+		const $ = filters$.subscribe();
 
 		return () => $.unsubscribe();
-	}, [filters$, setFilters]);
+	}, deps);
 
 	return filters;
 };
