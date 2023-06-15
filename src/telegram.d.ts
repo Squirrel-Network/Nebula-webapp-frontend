@@ -355,5 +355,6 @@ declare namespace Telegram {
 	const WebApp: WebApp;
 	const WebView: WebView;
 	const TelegramWebviewProxy: TelegramWebviewProxy;
-	const external: External;
+	const external: External
+	const TelegramGameProxy: TelegramGameProxy;
 }
