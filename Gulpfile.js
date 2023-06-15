@@ -4,6 +4,7 @@ const { required: env } = dotenv.config();
 
 import ESB from 'esbuild';
 import sassModules from '@squirrelnetwork/esbuild-sass-modules-plugin';
+import { tildeLoader } from './Gulpfile.utils.js';
 
 const buildType = env['NODE_ENV'];
 const isDev = buildType === 'development';
@@ -44,6 +45,9 @@ const buildOptions =
 				, sourceMapContents: isDev
 				, verbose: logLevel
 				, outFile: `dist/${bundleName}.css`
+				, importer:
+					[ tildeLoader
+					]
 				}
 			}
 		)
