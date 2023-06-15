@@ -343,10 +343,6 @@ declare namespace Telegram {
 		postEvent(eventType: 'resize_frame', data: EventResizeFrameData): void;
 	}
 
-	interface External {
-		notify(jsonEvent: string);
-	}
-
 	interface TelegramGameProxy {
 		readonly initParams: object;
 		shareScore(): void;
@@ -355,6 +351,5 @@ declare namespace Telegram {
 	const WebApp: WebApp;
 	const WebView: WebView;
 	const TelegramWebviewProxy: TelegramWebviewProxy;
-	const external: External
 	const TelegramGameProxy: TelegramGameProxy;
 }
