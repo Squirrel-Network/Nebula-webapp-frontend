@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { Context, createContext, useContext } from 'react';
 import { Button, Container, Form, Table } from 'react-bootstrap';
 import API from '../env/api';
 import useFilters from '../hooks/use.filters';
 import TelegramService from '../services/telegram.service';
 
 type Filters = Map<string, boolean>;
+
+const FiltersContext = createContext(new Map()) as Context<Filters>;
 
 const FiltersFormLegend = () =>
 	<legend className="h1">Filters</legend>;
@@ -20,22 +22,27 @@ const FiltersFormTableHeader = () =>
 		</tr>
 	</thead>;
 
-const FiltersFormTableBody = ({ filters }: { filters: Filters }) =>
-	<tbody>
-		{ Array.from(filters.entries()).map(([f, v], i) =>
-			<tr key={ i }>
-				<th>
-					<Form.Label htmlFor={ f }>
-						{ f }
-					</Form.Label>
-				</th>
-				<td>
-					<Form.Check id={ f } type="switch" />
-				</td>
-			</tr>
-		)
-		}
-	</tbody>;
+function FiltersFormTableBody() {
+	const filters = useContext(FiltersContext);
+
+	return <>
+		<tbody>
+			{ Array.from(filters.entries()).map(([ f, v ], i) =>
+				<tr key={ i }>
+					<th>
+						<Form.Label htmlFor={ f }>
+							{ f }
+						</Form.Label>
+					</th>
+					<td>
+						<Form.Check id={ f } type="switch" />
+					</td>
+				</tr>
+			)
+			}
+		</tbody>
+	</>;
+}
 
 const FiltersFormTableFooter = () =>
 	<tfoot>
@@ -50,14 +57,14 @@ const FiltersFormTableFooter = () =>
 		</tr>
 	</tfoot>;
 
-const FiltersFormTable = ({ filters }: { filters: Filters }) =>
+const FiltersFormTable = () =>
 	<Table striped bordered hover>
 		<FiltersFormTableHeader />
-		<FiltersFormTableBody filters={ filters } />
+		<FiltersFormTableBody />
 		<FiltersFormTableFooter />
 	</Table>;
 
-function FiltersForm({ filters }: { filters: Filters }) {
+function FiltersForm() {
 	const action = API.FILTERS(TelegramService.chatId);
 
 	return <>
@@ -67,7 +74,7 @@ function FiltersForm({ filters }: { filters: Filters }) {
 		>
 			<fieldset>
 				<FiltersFormLegend />
-				<FiltersFormTable filters={ filters } />
+				<FiltersFormTable />
 			</fieldset>
 		</Form>
 	</>;
@@ -78,7 +85,9 @@ export default function RouteFilters() {
 
 	return <>
 		<Container fluid>
-			<FiltersForm filters={ filters } />
+			<FiltersContext.Provider value={ filters }>
+				<FiltersForm />
+			</FiltersContext.Provider>
 		</Container>
 	</>;
 }
