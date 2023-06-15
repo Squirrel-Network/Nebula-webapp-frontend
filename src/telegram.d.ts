@@ -140,15 +140,15 @@ declare namespace Telegram {
 		};
 
 	type EventPopupClosedData =
-		{ button_id: string | null
+		{ readonly button_id: string | null
 		};
 
 	type EventQrTextReceivedData =
-		{ data: string
+		{ readonly data: string
 		};
 
 	type EventClipboardTextReceivedData =
-		{ data: string | null
+		{ readonly data: string | null
 		};
 
 	type InlineQueryChatType =
@@ -230,5 +230,130 @@ declare namespace Telegram {
 		close(): void;
 	}
 
+	type EventInvoiceClosedParams =
+		{ readonly slug: string
+		, readonly status: Pick<EventInvoiceClosedData, 'status'>
+		};
+
+	type EventViewportChangedParams =
+		{ readonly height: number
+		, readonly is_state_stable: boolean
+		, readonly is_expanded: boolean
+		};
+
+	type EventThemeChangedParams =
+		{ readonly theme_params: WebAppThemeParams
+		};
+
+	type EventPopupClosedParams =
+		{ readonly button_id?: string
+		};
+
+	interface WebView {
+		receiveEvent(eventType: 'main_button_pressed'): void;
+		receiveEvent(eventType: 'settings_button_pressed'): void;
+		receiveEvent(eventType: 'back_button_pressed'): void;
+		receiveEvent(eventType: 'invoice_closed', params: EventInvoiceClosedParams): void;
+		receiveEvent(eventType: 'viewport_changed', params: EventViewportChangedParams): void;
+		receiveEvent(eventType: 'theme_changed', params: EventThemeChangedParams): void;
+		receiveEvent(eventType: 'popup_closed', params: EventPopupClosedParams): void;
+	}
+
+	type PopupParamsData = PopupParams;
+
+	type EventWebAppClosingBehaviorData =
+		{ readonly need_confirmation: boolean
+		};
+
+	type EventWebAppBackgroundColorData =
+		{ readonly color: string
+		};
+
+	type EventWebAppData =
+		{ readonly data: string
+		};
+
+	type HapticFeedbackType =
+		'impact'
+		| 'notification'
+		| 'selection_change'
+		;
+
+	type EventWebAppHapticFeedbackData =
+		{ readonly type: HapticFeedbackType
+		, readonly impact_style: HapticFeedbackImpactStyle
+		, readonly notification_type: HapticFeedbackNotificationType
+		};
+
+	type EventWebAppLinkData =
+		{ readonly url: string
+		};
+
+	type EventWebAppTgLinkData =
+		{ readonly path_full: string
+		};
+
+	type EventWebAppInvoiceData =
+		{ readonly slug: string
+		};
+
+	type EventWebAppMainButtonData =
+		{ readonly is_visible: boolean
+		, readonly is_active: boolean
+		, readonly text: string
+		, readonly color: string
+		, readonly text_color: string
+		, readonly is_progress_visible: boolean
+		};
+
+	type EventWebAppBackButtonData =
+		{ readonly is_visible: boolean
+		};
+
+	type EventPaymentFormSubmit =
+		{ readonly title: string
+		, readonly credentials: unknown
+		};
+
+	type EventResizeFrameData =
+		{ readonly height: number
+		};
+
+	interface TelegramWebviewProxy {
+		postEvent(eventType: 'web_app_close'): void;
+		postEvent(eventType: 'web_app_open_popup', data: PopupParamsData): void;
+		postEvent(eventType: 'web_app_setup_closing_behavior', data: EventWebAppClosingBehaviorData): void;
+		postEvent(eventType: 'web_app_set_background_color', data: EventWebAppBackgroundColorData): void;
+		postEvent(eventType: 'web_app_set_header_color', data: EventWebAppData): void;
+		postEvent(eventType: 'web_app_trigger_haptic_feedback', data: EventWebAppHapticFeedbackData): void;
+		postEvent(eventType: 'web_app_open_link', data: EventWebAppLinkData): void;
+		postEvent(eventType: 'web_app_open_tg_link', data: EventWebAppTgLinkData): void;
+		postEvent(eventType: 'web_app_open_invoice', data: EventWebAppInvoiceData): void;
+		postEvent(eventType: 'web_app_expand'): void;
+		postEvent(eventType: 'web_app_request_viewport'): void;
+		postEvent(eventType: 'web_app_request_theme'): void;
+		postEvent(eventType: 'web_app_ready'): void;
+		postEvent(eventType: 'web_app_setup_main_button', data: EventWebAppMainButtonData): void;
+		postEvent(eventType: 'web_app_setup_back_button', data: EventWebAppBackButtonData): void;
+		postEvent(eventType: 'payment_form_submit', data: EventPaymentFormSubmit): void;
+		postEvent(eventType: 'share_score'): void;
+		postEvent(eventType: 'share_game'): void;
+		postEvent(eventType: 'game_over'): void;
+		postEvent(eventType: 'game_loaded'): void;
+		postEvent(eventType: 'resize_frame', data: EventResizeFrameData): void;
+	}
+
+	interface External {
+		notify(jsonEvent: string);
+	}
+
+	interface TelegramGameProxy {
+		readonly initParams: object;
+		shareScore(): void;
+	}
+
 	const WebApp: WebApp;
+	const WebView: WebView;
+	const TelegramWebviewProxy: TelegramWebviewProxy;
+	const external: External;
 }
