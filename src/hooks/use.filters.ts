@@ -16,5 +16,5 @@ export default function useFilters(deps: React.DependencyList) {
 		return () => $.unsubscribe();
 	}, deps);
 
-	return filters;
+	return new Map(Object.entries(filters));
 };

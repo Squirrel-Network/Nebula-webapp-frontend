@@ -10,7 +10,7 @@
 		"module": "ESNext",
 		"lib": [
 			"DOM",
-			"ES6"
+			"ES2017"
 		],
 		"jsx": "react"
 	}

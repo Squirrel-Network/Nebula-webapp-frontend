@@ -3,6 +3,8 @@ import React from 'react';
 import { RouterProvider } from 'react-router-dom';
 import Router from './router';
 
+import './theme/index.scss';
+
 window.addEventListener('load', () => {
 	const main = document.querySelector('main');
 	const root = createRoot(main);

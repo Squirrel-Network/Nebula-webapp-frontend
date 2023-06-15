@@ -2,7 +2,7 @@ import React from 'react';
 
 import { createBrowserRouter } from 'react-router-dom';
 import RouteError from './routes/error';
-import RouteFilter from './routes/filter';
+import RouteFilters from './routes/filters';
 import RouteHome from './routes/home';
 
 export default createBrowserRouter(
@@ -10,7 +10,7 @@ export default createBrowserRouter(
 	, element: <RouteHome />
 	}
 	, { path: '/filters'
-	, element: <RouteFilter />
+	, element: <RouteFilters />
 	}
 	, { path: '/error'
 	, element: <RouteError />
