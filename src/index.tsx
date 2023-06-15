@@ -14,4 +14,6 @@ window.addEventListener('load', () => {
 			<RouterProvider router={ Router } />
 		</React.StrictMode>
 	);
+
+	Telegram.WebApp.expand();
 });
