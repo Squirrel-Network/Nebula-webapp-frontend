@@ -6,7 +6,7 @@ import filtersService$ from '../services/filters.service';
 export default function useFilters(deps: React.DependencyList) {
 	const [filters, setFilters] = useState({} as FiltersResponse);
 
-	const filters$ = filtersService$
+	const filters$ = filtersService$.get
 		.pipe(map(r => r.data))
 		.pipe(tap(f => setFilters(f)));
 
