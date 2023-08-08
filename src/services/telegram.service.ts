@@ -1,4 +1,4 @@
-const TELEGRAM_SECRETS_MAP = new Map();
+const TELEGRAM_SECRETS_MAP = new Map<string, any>();
 TELEGRAM_SECRETS_MAP.set('initData', Telegram.WebApp.initData);
 TELEGRAM_SECRETS_MAP.set('params', new URLSearchParams(location.search));
 

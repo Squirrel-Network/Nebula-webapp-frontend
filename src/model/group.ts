@@ -10,21 +10,21 @@ export default class Group {
 	totalMessages: number;
 	photo: string;
 
-	constructor(info: GetGroupInfo) {
-		this.chatId = info.chat_id;
-		this.name = info.group_name;
-		this.language = info.language;
-		this.maxWarn = info.max_warn;
-		this.totalMessages = info.total_messages;
-		this.totalUsers = info.total_users;
-		this.photo = info.group_photo;
+	constructor(info?: GetGroupInfo) {
+		this.chatId = info?.chat_id;
+		this.name = info?.group_name;
+		this.language = info?.language;
+		this.maxWarn = info?.max_warn;
+		this.totalMessages = info?.total_messages;
+		this.totalUsers = info?.total_users;
+		this.photo = info?.group_photo;
 	}
 
 	static from(info: GetGroupInfo) {
 		return new Group(info);
 	}
 
-	toJSON() {
+	toJSON(): object {
 		return (
 			{ group_photo: this.photo
 			, total_users: this.totalUsers

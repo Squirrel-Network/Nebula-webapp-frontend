@@ -1,16 +1,24 @@
 import React, { Context, createContext, FormEventHandler, useContext, useEffect, useReducer, useState } from 'react';
+
 import { Button, Container, Form, Table } from 'react-bootstrap';
-import { map, mergeMap, Subject } from 'rxjs';
+import { map, tap, Subject } from 'rxjs';
+
 import GroupInfo from '../components/group-info';
 import API from '../env/api';
 import useFilters from '../hooks/use.filters';
-import FiltersResponse from '../model/filters.response';
-import filtersService$ from '../services/filters.service';
+import GroupFilters from '../model/group.filters';
 import TelegramService from '../services/telegram.service';
 
 type Filters = Map<string, boolean>;
+type OnFiltersChangeHandler = (k: string, v: boolean) => void;
 
 const FiltersContext = createContext(new Map()) as Context<Filters>;
+
+function mapHashReducer(_: string, m: Filters) {
+	return Array.from(m.entries())
+		.map(([k, v]) => k.toString() + ':'  + String(v))
+		.reduce((acc, next) => acc + next + ';');
+}
 
 const FiltersFormLegend = () =>
 	<legend className="h1">Filters</legend>;
@@ -32,10 +40,10 @@ const FiltersFormTableHeader = () =>
 	</thead>;
 
 function FiltersFormTableBody(
-	{ onFiltersChange }: { onFiltersChange: (k: string, v: boolean) => void }
+	{ onFiltersChange }: { onFiltersChange: OnFiltersChangeHandler }
 ) {
 	const filters = useContext(FiltersContext);
-	const [filtersHash, dispatchHash] = useReducer(
+	const [ filtersHash, dispatchHash ] = useReducer(
 		mapHashReducer,
 		''
 	);
@@ -81,7 +89,7 @@ const FiltersFormTableFooter = () =>
 	</tfoot>;
 
 const FiltersFormTable = (
-	{ onFiltersChange }: { onFiltersChange: (k: string, v: boolean) => void }
+	{ onFiltersChange }: { onFiltersChange: OnFiltersChangeHandler }
 ) =>
 	<Table striped bordered hover>
 		<FiltersFormTableHeader />
@@ -89,16 +97,10 @@ const FiltersFormTable = (
 		<FiltersFormTableFooter />
 	</Table>;
 
-function mapHashReducer(_: string, m: Map<string, boolean>) {
-	return Array.from(m.entries())
-		.map(([k, v]) => k.toString() + ':'  + String(v))
-		.reduce((acc, next) => acc + next + ';');
-}
-
 function FiltersForm(
 	{ onChange
 	, onSubmit
-	}: { onChange: (k: string, v: boolean) => void
+	}: { onChange: OnFiltersChangeHandler
 		, onSubmit: FormEventHandler<HTMLFormElement>
 		}
 ) {
@@ -119,27 +121,17 @@ function FiltersForm(
 }
 
 export default function RouteFilters() {
-	const filters = useFilters([]);
-	const [ submitFilters$ ] = useState(new Subject<HTMLFormElement>());
+	const [ filters, updateFilters ] = useFilters([]);
+	const [ actionSubmitFilters$ ] = useState(new Subject<HTMLFormElement>());
 
 	useEffect(function() {
-		const $ = submitFilters$
-			.pipe(map(f => {
-				const fd = {} as FiltersResponse;
-
-				Array.from(f.elements)
-					.filter(e => e instanceof HTMLInputElement)
-					.forEach((e: HTMLInputElement) =>
-						fd[e.name] = Boolean(e.checked)
-					);
-
-				return fd;
-			}))
-			.pipe(mergeMap(fd => filtersService$.post(fd)))
+		const $ = actionSubmitFilters$
+			.pipe(map(GroupFilters.fromForm))
+			.pipe(tap(updateFilters))
 			.subscribe();
 
 		return () => $.unsubscribe();
-	}, [ submitFilters$ ]);
+	}, [ actionSubmitFilters$ ]);
 
 	return <>
 		<Container fluid>
@@ -149,7 +141,7 @@ export default function RouteFilters() {
 					onSubmit={ e => {
 						e.preventDefault();
 
-						submitFilters$.next(e.currentTarget);
+						actionSubmitFilters$.next(e.currentTarget);
 					} }
 				/>
 			</FiltersContext.Provider>

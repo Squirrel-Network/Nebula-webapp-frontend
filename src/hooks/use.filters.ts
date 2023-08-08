@@ -1,20 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { map, tap } from 'rxjs';
-import FiltersResponse from '../model/filters.response';
-import filtersService$ from '../services/filters.service';
+
+import { map, Subject, switchMap, tap } from 'rxjs';
+
+import GetGroupFilters from '../model/get.group.filters';
+import GroupFilters from '../model/group.filters';
+import FiltersService from '../services/filters.service';
 
 export default function useFilters(deps: React.DependencyList) {
-	const [filters, setFilters] = useState({} as FiltersResponse);
-
-	const filters$ = filtersService$.get
-		.pipe(map(r => r.data))
-		.pipe(tap(f => setFilters(f)));
+	const [ filters, updateFilters ] = useState(new GroupFilters());
+	const [ actionUpdate$ ] = useState(new Subject<GroupFilters>());
 
 	useEffect(() => {
-		const $ = filters$.subscribe();
+		const filters$ = FiltersService.get$
+			.pipe(map(r => GroupFilters.fromObject(r.data)))
+			.pipe(tap(updateFilters));
 
-		return () => $.unsubscribe();
+		const $filters = filters$.subscribe();
+		const $actionUpdate = actionUpdate$
+			.pipe(map(f => f.toJSON() as GetGroupFilters))
+			.pipe(switchMap(FiltersService.post$))
+			.subscribe();
+
+		return () => ($filters.unsubscribe(), $actionUpdate.unsubscribe());
 	}, deps);
 
-	return new Map(Object.entries(filters));
+	const filtersMap = filters.getMap();
+	const update = (filters: GroupFilters) => actionUpdate$.next(filters);
+
+	return [ filtersMap, update ] as [ typeof filtersMap, typeof update ];
 };
