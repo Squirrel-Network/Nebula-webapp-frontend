@@ -1,6 +1,7 @@
 import React, { Context, createContext, FormEventHandler, useContext, useEffect, useReducer, useState } from 'react';
 import { Button, Container, Form, Table } from 'react-bootstrap';
-import { map, mergeMap, Subject, tap } from 'rxjs';
+import { map, mergeMap, Subject } from 'rxjs';
+import GroupInfo from '../components/group-info';
 import API from '../env/api';
 import useFilters from '../hooks/use.filters';
 import FiltersResponse from '../model/filters.response';
@@ -16,6 +17,11 @@ const FiltersFormLegend = () =>
 
 const FiltersFormTableHeader = () =>
 	<thead>
+		<tr>
+			<td colSpan={ 2 }>
+				<GroupInfo id={ TelegramService.chatId } />
+			</td>
+		</tr>
 		<tr>
 			<td colSpan={ 2 }>
 				<Form.Text muted>

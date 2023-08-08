@@ -5,8 +5,11 @@ const API =
 	, get V1() {
 		return new URL('/v1/', this.API_SERVER);
 	}
+	, get V2() {
+		return new URL('/v2/', this.API_SERVER);
+	}
 	, GROUP(groupId: string) {
-		return new URL(`group/${groupId}/`, this.V1);
+		return new URL(`group/${groupId}/`, this.V2);
 	}
 	, FILTERS(groupId: string) {
 		return new URL('filters', this.GROUP(groupId));
