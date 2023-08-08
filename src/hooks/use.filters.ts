@@ -17,6 +17,7 @@ export default function useFilters(deps: React.DependencyList) {
 
 		const $filters = filters$.subscribe();
 		const $actionUpdate = actionUpdate$
+			.pipe(tap(updateFilters))
 			.pipe(map(f => f.toJSON() as GetGroupFilters))
 			.pipe(switchMap(FiltersService.post$))
 			.subscribe();
