@@ -27,12 +27,7 @@ const FiltersFormTableHeader = () =>
 	<thead>
 		<tr>
 			<td colSpan={ 2 }>
-				<GroupInfo id={ TelegramService.chatId } />
-			</td>
-		</tr>
-		<tr>
-			<td colSpan={ 2 }>
-				<Form.Text muted>
+				<Form.Text>
 					Filters settings for the group.
 				</Form.Text>
 			</td>
@@ -59,6 +54,7 @@ function FiltersFormTableBody(
 					</th>
 					<td>
 						<Form.Check
+							id={ f }
 							name={ f }
 							type="switch"
 							checked={ Boolean(v) }
@@ -79,11 +75,10 @@ const FiltersFormTableFooter = () =>
 	<tfoot>
 		<tr>
 			<td colSpan={ 2 }>
-				<Button
-					variant="primary"
-					className="w-100"
-					type="submit"
-				>Submit</Button>
+				<Form.Text>
+					The filters will allow Nebula to prevent such kind of files
+					to be posted in the chat.
+				</Form.Text>
 			</td>
 		</tr>
 	</tfoot>;
@@ -112,9 +107,17 @@ function FiltersForm(
 			method="POST"
 			onSubmitCapture={ onSubmit }
 		>
+			<GroupInfo id={ TelegramService.chatId } />
+
 			<fieldset>
 				<FiltersFormLegend />
 				<FiltersFormTable onFiltersChange={ onChange } />
+
+				<Button
+					variant="primary"
+					className="w-100"
+					type="submit"
+				>Save</Button>
 			</fieldset>
 		</Form>
 	</>;

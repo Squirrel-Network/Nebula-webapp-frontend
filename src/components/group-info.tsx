@@ -1,6 +1,37 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
 
 import useGroup from '../hooks/use.group';
+
+function CopyDetail(
+	{ clipboardText }: { clipboardText: string }
+) {
+	const [ buttonStatus, updateButtonStatus ] = useState('initial');
+
+	const copyDetailsCallback = useCallback(function copyDetails() {
+		navigator.clipboard.writeText(clipboardText)
+			.then(() => updateButtonStatus('copied'));
+	}, [ clipboardText ]);
+
+	useEffect(function changeButtonText() {
+		if(buttonStatus == 'copied') {
+			setTimeout(() => updateButtonStatus('initial'), 700);
+		}
+	}, [ buttonStatus ]);
+
+	return <>
+		<button
+			className={ 'btn btn-outline-primary btn-copy btn-copy-' + buttonStatus }
+			type="button"
+			onClickCapture={ copyDetailsCallback }
+		>
+			{ buttonStatus == 'initial'
+				? null
+				: <>Copied!&nbsp;</>
+			}
+			<i className="bi bi-clipboard"></i>
+		</button>
+	</>;
+}
 
 export default function GroupInfo({ id }: { id: string }) {
 	const group = useGroup(id, [ id ]);
@@ -12,33 +43,47 @@ export default function GroupInfo({ id }: { id: string }) {
 	useEffect(() => updateAltText(group.name), [ group ]);
 
 	return <>
-		<figure>
-			<img src={ group.photo } alt={ altText } width="50%" />
+		<details className="group-info">
+			<summary className="mb-1">Information of the group</summary>
 
-			<figcaption>
-				<span className="h1">
-					{ group.name }
-				</span>
+			<figure className="card">
+				<img
+					className="card-img-top"
+					src={ group.photo }
+					alt={ altText }
+					width="50%"
+				/>
 
-				<hr />
+				<figcaption className="card-body">
+					<span className="h2 card-text">
+						{ group.name }
+					</span>
 
-				<dl className="text-muted">
-					<dt>Chat Id</dt>
-					<dd>{ group.chatId }</dd>
+					<hr />
 
-					<dt>Language</dt>
-					<dd>{ group.language }</dd>
+					<dl className="card-text">
+						<dt>Chat Id</dt>
+						<dd>
+							{ group.chatId }
+							<CopyDetail
+								clipboardText={ group.chatId?.toString() }
+							/>
+						</dd>
 
-					<dt>Total users</dt>
-					<dd>{ group.totalUsers }</dd>
+						<dt>Language</dt>
+						<dd>{ group.language }</dd>
 
-					<dt>Total messages</dt>
-					<dd>{ group.totalMessages }</dd>
+						<dt>Total users</dt>
+						<dd>{ group.totalUsers }</dd>
 
-					<dt>Max Warn</dt>
-					<dl>{ group.maxWarn }</dl>
-				</dl>
-			</figcaption>
-		</figure>
+						<dt>Total messages</dt>
+						<dd>{ group.totalMessages }</dd>
+
+						<dt>Max Warn</dt>
+						<dd>{ group.maxWarn }</dd>
+					</dl>
+				</figcaption>
+			</figure>
+		</details>
 	</>;
 };
