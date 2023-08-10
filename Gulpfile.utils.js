@@ -23,12 +23,12 @@ const maybe = op => function may(ok, fail) {
 	}
 };
 
-function getTildeLoaderPnPResource(url, prev) {
+function getTildeLoaderPnPResource(url, prev, extensions) {
 	function recurse(module) {
 		const oldPrev = sassImportStack.at(-2);
 		sassImportStack.pop();
 
-		return getTildeLoaderPnPResource(module, oldPrev);
+		return getTildeLoaderPnPResource(module, oldPrev, extensions);
 	}
 
 	if(url.startsWith('~')) {
@@ -41,13 +41,11 @@ function getTildeLoaderPnPResource(url, prev) {
 			+ url;
 	}
 
-	const sassExtensions = ['.sass', '.scss'];
-
 	const maybeResource = maybe(() =>
 		pnpapi.resolveRequest(
 			url,
 			__dirname + '/',
-			{ extensions: sassExtensions
+			{ extensions
 			}
 		)
 	);
@@ -58,7 +56,7 @@ function getTildeLoaderPnPResource(url, prev) {
 				+ '/_'
 				+ path.basename(url),
 			__dirname + '/',
-			{ extensions: sassExtensions
+			{ extensions
 			}
 		)
 	);
@@ -72,23 +70,32 @@ function getTildeLoaderPnPResource(url, prev) {
 	);
 }
 
-export function tildeLoader(module, importer) {
-	if(!module.startsWith('~') && sassImportStack.length === 0) {
-		return null;
-	}
-
+export function lookInYarnZipFS(module, importer, extensions) {
 	const zipOpenFs = new libzip.ZipOpenFS(
 		{ libzip: libzip.getLibzipSync()
 		}
 	);
 	const crossFs = new PosixFS(zipOpenFs);
 
+	const resource = getTildeLoaderPnPResource(
+		module,
+		importer,
+		extensions
+	);
+
+	return crossFs.readFileSync(resource);
+}
+
+export function tildeLoader(module, importer) {
+	if(!module.startsWith('~') && sassImportStack.length === 0) {
+		return null;
+	}
+
 	if(sassImportStack.indexOf(importer) === -1) {
 		sassImportStack.push(importer);
 	}
 
-	const resource = getTildeLoaderPnPResource(module, importer);
-	const file = crossFs.readFileSync(resource);
+	const file = lookInYarnZipFS(module, importer, ['.sass', '.scss']);
 
 	return { contents: file.toString() };
 }
