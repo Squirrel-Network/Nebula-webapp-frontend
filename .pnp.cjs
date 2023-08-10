@@ -37,6 +37,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:1.4.0"],\
             ["axios-observable", "virtual:9298dfaa646c81abaebc60ddebe90c2cc7f2a010d95b69e2fca515fed65af5d780d337f0e513e5251a79a01c787200630f1446ed4d65c0ce8361465c0016832e#npm:2.0.0"],\
             ["bootstrap", "virtual:9298dfaa646c81abaebc60ddebe90c2cc7f2a010d95b69e2fca515fed65af5d780d337f0e513e5251a79a01c787200630f1446ed4d65c0ce8361465c0016832e#npm:5.3.0"],\
+            ["bootstrap-icons", "npm:1.10.5"],\
             ["dotenv-safe", "npm:8.2.0"],\
             ["esbuild", "npm:0.17.19"],\
             ["gulp", "npm:4.0.2"],\
@@ -987,6 +988,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packagePeers": [\
             "@popperjs/core",\
             "@types/popperjs__core"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["bootstrap-icons", [\
+        ["npm:1.10.5", {\
+          "packageLocation": "./.yarn/cache/bootstrap-icons-npm-1.10.5-36f80ab074-8a0cfbd237.zip/node_modules/bootstrap-icons/",\
+          "packageDependencies": [\
+            ["bootstrap-icons", "npm:1.10.5"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -3360,6 +3370,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:1.4.0"],\
             ["axios-observable", "virtual:9298dfaa646c81abaebc60ddebe90c2cc7f2a010d95b69e2fca515fed65af5d780d337f0e513e5251a79a01c787200630f1446ed4d65c0ce8361465c0016832e#npm:2.0.0"],\
             ["bootstrap", "virtual:9298dfaa646c81abaebc60ddebe90c2cc7f2a010d95b69e2fca515fed65af5d780d337f0e513e5251a79a01c787200630f1446ed4d65c0ce8361465c0016832e#npm:5.3.0"],\
+            ["bootstrap-icons", "npm:1.10.5"],\
             ["dotenv-safe", "npm:8.2.0"],\
             ["esbuild", "npm:0.17.19"],\
             ["gulp", "npm:4.0.2"],\
