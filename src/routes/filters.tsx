@@ -1,4 +1,14 @@
-import React, { Context, createContext, FormEventHandler, useContext, useEffect, useReducer, useState } from 'react';
+import { AxiosError, AxiosResponse } from 'axios';
+import React, {
+	Context,
+	createContext,
+	FormEventHandler,
+	useCallback,
+	useContext,
+	useEffect,
+	useReducer,
+	useState
+} from 'react';
 
 import { Button, Container, Form, Table } from 'react-bootstrap';
 import { map, tap, Subject } from 'rxjs';
@@ -124,7 +134,43 @@ function FiltersForm(
 }
 
 export default function RouteFilters() {
-	const [ filters, updateFilters ] = useFilters([]);
+	const onError = useCallback(function onError(err: AxiosError) {
+		const isOff = !navigator.onLine;
+
+		let msg: string;
+
+		if(isOff) {
+			msg = 'Your device appears to be offline.';
+		}
+		else if(err?.isAxiosError) {
+			msg = err.message;
+		}
+		else {
+			msg = 'Unknown error: ' + err.message;
+		}
+
+		Telegram.WebApp.showAlert(msg);
+	}, []);
+	const onComplete = useCallback(function onComplete(r: AxiosResponse) {
+		let msg: string;
+
+		if(r.status != 200) {
+			const data = r.data ?? '(empty response)';
+
+			msg = 'Unexpected ' + r.statusText + ': ' + data;
+		}
+		else {
+			msg = 'Filters saved successfully.';
+		}
+
+		Telegram.WebApp.showAlert(msg);
+	}, []);
+	const onStart = useCallback(function onStart() {
+
+	}, []);
+
+	const [ filters, updateFilters ] =
+		useFilters({ onStart, onComplete, onError }, []);
 	const [ actionSubmitFilters$ ] = useState(new Subject<HTMLFormElement>());
 
 	useEffect(function() {

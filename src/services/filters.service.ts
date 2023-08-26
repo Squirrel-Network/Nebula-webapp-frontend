@@ -23,6 +23,8 @@ const filtersServicePost$ = (fd: GetGroupFilters) => Axios.post(
 	endpoint.toString(),
 	fd,
 	{ responseType: 'json'
+	, timeout: 10000
+	, timeoutErrorMessage: 'Your request has timed out. Try again.'
 	, headers:
 		{ [ HEADER_INIT_DATA ]: TelegramService.initData
 		, [ HEADER_AUTHORIZATION ]: 'Bearer ' + TelegramService.jwt
