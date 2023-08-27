@@ -2,7 +2,6 @@ import { AxiosError, AxiosResponse } from 'axios';
 import React, {
 	Context,
 	createContext,
-	FormEventHandler,
 	useCallback,
 	useContext,
 	useEffect,
@@ -10,13 +9,15 @@ import React, {
 	useState
 } from 'react';
 
-import { Button, Container, Form, Table } from 'react-bootstrap';
+import { Button, Container, Form, Spinner, Table } from 'react-bootstrap';
 import { map, tap, Subject } from 'rxjs';
 
 import GroupInfo from '../components/group-info';
+import Overlay from '../components/overlay';
 import API from '../env/api';
 import useFilters from '../hooks/use.filters';
 import GroupFilters from '../model/group.filters';
+import OverlayService from '../services/overlay.service';
 import TelegramService from '../services/telegram.service';
 
 type Filters = Map<string, boolean>;
@@ -103,31 +104,19 @@ const FiltersFormTable = (
 	</Table>;
 
 function FiltersForm(
-	{ onChange
-	, onSubmit
-	}: { onChange: OnFiltersChangeHandler
-		, onSubmit: FormEventHandler<HTMLFormElement>
-		}
+	{ onChange }: { onChange: OnFiltersChangeHandler }
 ) {
-	const action = API.FILTERS(TelegramService.chatId);
-
 	return <>
 		<Form
-			action={ action.toString() }
-			method="POST"
-			onSubmitCapture={ onSubmit }
+			name='save-filters'
+			method="dialog"
+			onSubmitCapture={ e => e.preventDefault() }
 		>
 			<GroupInfo id={ TelegramService.chatId } />
 
 			<fieldset>
 				<FiltersFormLegend />
 				<FiltersFormTable onFiltersChange={ onChange } />
-
-				<Button
-					variant="primary"
-					className="w-100"
-					type="submit"
-				>Save</Button>
 			</fieldset>
 		</Form>
 	</>;
@@ -150,6 +139,8 @@ export default function RouteFilters() {
 		}
 
 		Telegram.WebApp.showAlert(msg);
+
+		OverlayService.pop();
 	}, []);
 	const onComplete = useCallback(function onComplete(r: AxiosResponse) {
 		let msg: string;
@@ -164,34 +155,75 @@ export default function RouteFilters() {
 		}
 
 		Telegram.WebApp.showAlert(msg);
+
+		OverlayService.pop();
+
+		if(r.status == 200) {
+			Telegram.WebApp.close();
+		}
 	}, []);
 	const onStart = useCallback(function onStart() {
-
+		OverlayService.push();
 	}, []);
+
+	const onSubmit = useCallback(function onSubmit() {
+		const form = document.forms.namedItem('save-filters');
+
+		actionSubmitFilters$.next(form);
+	}, []);
+
+	const onOverlayStatusChange = useCallback(
+		function onOverlayStatusChange() {
+			if(OverlayService.isActive()) {
+				Telegram.WebApp.MainButton.color =
+					getComputedStyle(document.documentElement)
+						.getPropertyValue('--tg-theme-bg-color');
+				Telegram.WebApp.MainButton.showProgress(true);
+				Telegram.WebApp.MainButton.disable();
+			}
+			else {
+				Telegram.WebApp.MainButton.color =
+					getComputedStyle(document.documentElement)
+						.getPropertyValue('--tg-theme-button-color');
+				Telegram.WebApp.MainButton.hideProgress();
+				Telegram.WebApp.MainButton.enable();
+			}
+		},
+		[]
+	);
 
 	const [ filters, updateFilters ] =
 		useFilters({ onStart, onComplete, onError }, []);
 	const [ actionSubmitFilters$ ] = useState(new Subject<HTMLFormElement>());
 
 	useEffect(function() {
+		Telegram.WebApp.MainButton.setText('Save filters');
+		Telegram.WebApp.MainButton.show();
+		Telegram.WebApp.MainButton.onClick(onSubmit);
+
+		OverlayService.addListener(onOverlayStatusChange);
+
 		const $ = actionSubmitFilters$
 			.pipe(map(GroupFilters.fromForm))
 			.pipe(tap(updateFilters))
 			.subscribe();
 
-		return () => $.unsubscribe();
+		return () => (
+			$.unsubscribe(),
+			OverlayService.removeListener(onOverlayStatusChange),
+			Telegram.WebApp.MainButton.offClick(onSubmit),
+			Telegram.WebApp.MainButton.hide()
+		);
 	}, [ actionSubmitFilters$ ]);
 
 	return <>
+		<Overlay>
+			<Spinner animation="border" />
+		</Overlay>
 		<Container fluid>
 			<FiltersContext.Provider value={ filters }>
 				<FiltersForm
 					onChange={ (k, v) => filters.set(k, v) }
-					onSubmit={ e => {
-						e.preventDefault();
-
-						actionSubmitFilters$.next(e.currentTarget);
-					} }
 				/>
 			</FiltersContext.Provider>
 		</Container>

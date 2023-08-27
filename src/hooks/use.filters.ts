@@ -1,7 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
 
-import { catchError, map, Subject, switchMap, tap } from 'rxjs';
+import { map, Subject, switchMap, tap } from 'rxjs';
 
 import GetGroupFilters from '../model/get.group.filters';
 import GroupFilters from '../model/group.filters';
@@ -31,8 +31,11 @@ export default function useFilters(
 			.pipe(map(f => f.toJSON() as GetGroupFilters))
 			.pipe(tap(onStart))
 			.pipe(switchMap(FiltersService.post$))
-			.pipe(catchError((e: AxiosError, $) => (onError(e), $)))
-			.subscribe(onComplete);
+			.subscribe(
+				{ error: onError
+				, next: onComplete
+				}
+			);
 
 		return () => ($filters.unsubscribe(), $actionUpdate.unsubscribe());
 	}, deps);
